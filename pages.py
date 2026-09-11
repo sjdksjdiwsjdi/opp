@@ -1,3 +1,7 @@
+# pages.py - پنل تخت جمشید · نسخه کیهانی (Cosmic Aurora Edition)
+# redesigned with deep-space theme, glassmorphism, neon glow, holographic gradients
+# تمام APIها و IDهای اصلی حفظ شده‌اند
+
 LOGIN_HTML = r"""<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -128,33 +132,10 @@ body{
 
 @media(max-width:900px){.container{grid-template-columns:1fr}.info-section{display:none}.login-section{padding:36px 28px}}
 @media(max-width:480px){.login-section{padding:28px 20px}.welcome{font-size:21px}.brand-icon{width:46px;height:46px;font-size:22px}}
-
-/* === ✦ ULTRA COSMIC: شفق قطبی === */
-.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.9}
-.aurora i{position:absolute;display:block;border-radius:50%;filter:blur(110px);mix-blend-mode:screen;will-change:transform,opacity}
-.aurora .a1{width:900px;height:340px;top:-120px;right:-10%;background:linear-gradient(100deg,transparent,rgba(16,255,160,0.16),rgba(0,240,255,0.22),transparent);transform:rotate(-14deg);animation:auroraSweep 16s ease-in-out infinite}
-.aurora .a2{width:800px;height:300px;top:6%;left:-15%;background:linear-gradient(80deg,transparent,rgba(123,47,247,0.2),rgba(0,240,255,0.14),transparent);transform:rotate(10deg);animation:auroraSweep 21s ease-in-out infinite reverse;animation-delay:-6s}
-.aurora .a3{width:700px;height:260px;bottom:-80px;right:8%;background:linear-gradient(90deg,transparent,rgba(255,46,154,0.15),rgba(123,47,247,0.12),transparent);transform:rotate(-6deg);animation:auroraSweep 26s ease-in-out infinite;animation-delay:-12s}
-@keyframes auroraSweep{0%,100%{transform:translateX(0) rotate(-12deg) scaleY(1);opacity:.55}33%{transform:translateX(-70px) rotate(-7deg) scaleY(1.35);opacity:.9}66%{transform:translateX(60px) rotate(-16deg) scaleY(.8);opacity:.45}}
-
-/* === ✦ ULTRA COSMIC: لوگوی متحرک تخت جمشید === */
-.brand-icon{overflow:visible}
-.brand-icon svg{width:60%;height:60%;filter:drop-shadow(0 0 8px rgba(0,240,255,0.7))}
-.brand-icon .pp-col{animation:ppColWave 2.6s ease-in-out infinite}
-.brand-icon .pp-col.c2{animation-delay:.25s}
-.brand-icon .pp-col.c3{animation-delay:.5s}
-.brand-icon .pp-roof{animation:ppRoofGlow 3.2s ease-in-out infinite}
-@keyframes ppColWave{0%,100%{opacity:.65;transform:translateY(0)}50%{opacity:1;transform:translateY(-1.5px)}}
-@keyframes ppRoofGlow{0%,100%{filter:drop-shadow(0 0 3px rgba(0,240,255,0.6))}50%{filter:drop-shadow(0 0 10px rgba(255,46,154,0.9))}}
-
-/* === ✦ مدال چرخان دور لوگو === */
-.orbit-ring{position:absolute;inset:-8px;border-radius:18px;border:1px dashed rgba(0,240,255,0.35);animation:spinOrbit 14s linear infinite;pointer-events:none}
-@keyframes spinOrbit{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 <canvas id="starfield"></canvas>
-<div class="aurora"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
 <div class="nebula nebula-1"></div><div class="nebula nebula-2"></div><div class="nebula nebula-3"></div>
 <div class="grid-lines"></div>
 
@@ -166,10 +147,10 @@ body{
 <div class="container">
     <div class="login-section">
         <div class="brand">
-            <div class="brand-icon"><div class="orbit-ring"></div><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ppGradLogin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="0.5" stop-color="#7b2ff7"/><stop offset="1" stop-color="#ff2e9a"/></linearGradient></defs><g class="pp-roof"><rect x="6" y="8" width="52" height="6" rx="2" fill="url(#ppGradLogin)"/><rect x="10" y="16" width="44" height="4" rx="2" fill="url(#ppGradLogin)" opacity="0.75"/></g><rect class="pp-col c1" x="13" y="23" width="6" height="27" rx="2" fill="url(#ppGradLogin)"/><rect class="pp-col c2" x="29" y="23" width="6" height="27" rx="2" fill="url(#ppGradLogin)" opacity="0.85"/><rect class="pp-col c3" x="45" y="23" width="6" height="27" rx="2" fill="url(#ppGradLogin)" opacity="0.7"/><rect x="7" y="52" width="50" height="5" rx="2" fill="url(#ppGradLogin)"/></svg></div>
+            <div class="brand-icon">🏛️</div>
             <div>
                 <div class="brand-text">PERSEPOLIS</div>
-                <div class="brand-sub">COSMIC PANEL · v3.0 ULTRA</div>
+                <div class="brand-sub">COSMIC PANEL · v2.0</div>
             </div>
         </div>
         <div class="welcome" id="welcome-text">خوش آمدید</div>
@@ -205,113 +186,47 @@ body{
 </div>
 
 <script>
-// === ✦ ULTRA COSMIC: ستاره‌های پارالاکس + شهاب‌سنگ (Canvas) ===
+// === ستاره‌های متحرک (Canvas) ===
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
-let stars = [], meteors = [], mouse = {x: 0.5, y: 0.5};
+let stars = [];
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     stars = [];
-    const count = Math.floor((canvas.width * canvas.height) / 6000);
+    const count = Math.floor((canvas.width * canvas.height) / 8000);
     for (let i = 0; i < count; i++) {
         stars.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            r: Math.random() * 1.6 + 0.3,
+            r: Math.random() * 1.5 + 0.3,
             o: Math.random() * 0.8 + 0.2,
             s: Math.random() * 0.05 + 0.01,
             tw: Math.random() * Math.PI * 2,
-            depth: Math.random(),
             color: Math.random() > 0.85 ? '#00f0ff' : (Math.random() > 0.7 ? '#ff2e9a' : '#ffffff')
         });
     }
 }
-function spawnMeteor() {
-    const sx = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
-    meteors.push({
-        x: sx, y: -30,
-        vx: -(Math.random() * 6 + 4),
-        vy: Math.random() * 4 + 4,
-        len: Math.random() * 90 + 60,
-        life: 1, hue: Math.random() > 0.5 ? '#00f0ff' : '#ff2e9a'
-    });
-}
 function drawStars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const px = (mouse.x - 0.5), py = (mouse.y - 0.5);
     stars.forEach(s => {
         s.tw += 0.02;
         const op = s.o * (0.5 + 0.5 * Math.sin(s.tw));
-        const ox = px * 26 * s.depth, oy = py * 18 * s.depth;
         ctx.beginPath();
-        ctx.arc(s.x + ox, s.y + oy, s.r, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fillStyle = s.color;
         ctx.globalAlpha = op;
-        ctx.shadowBlur = 8 + s.depth * 6;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = s.color;
         ctx.fill();
     });
-    // شهاب‌سنگ‌ها
-    if (Math.random() < 0.012 && meteors.length < 4) spawnMeteor();
-    for (let i = meteors.length - 1; i >= 0; i--) {
-        const m = meteors[i];
-        m.x += m.vx; m.y += m.vy; m.life -= 0.008;
-        if (m.life <= 0 || m.y > canvas.height + 100) { meteors.splice(i, 1); continue; }
-        const grad = ctx.createLinearGradient(m.x, m.y, m.x - m.vx * (m.len / 8), m.y - m.vy * (m.len / 8));
-        grad.addColorStop(0, m.hue);
-        grad.addColorStop(1, 'transparent');
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 2.2;
-        ctx.globalAlpha = Math.min(m.life, 1);
-        ctx.shadowBlur = 14;
-        ctx.shadowColor = m.hue;
-        ctx.beginPath();
-        ctx.moveTo(m.x, m.y);
-        ctx.lineTo(m.x - m.vx * (m.len / 8), m.y - m.vy * (m.len / 8));
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(m.x, m.y, 2.4, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff';
-        ctx.fill();
-    }
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
     requestAnimationFrame(drawStars);
 }
 window.addEventListener('resize', resizeCanvas);
-window.addEventListener('mousemove', e => { mouse.x = e.clientX / window.innerWidth; mouse.y = e.clientY / window.innerHeight; });
 resizeCanvas();
 drawStars();
-
-// === ✦ ULTRA COSMIC: موتور جلوه صوتی (WebAudio — بدون فایل خارجی) ===
-const SFX = {
-    ac: null, enabled: localStorage.getItem('pp-sfx') !== 'off',
-    ensure() {
-        if (!this.ac) { try { this.ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return false; } }
-        if (this.ac && this.ac.state === 'suspended') this.ac.resume();
-        return !!this.ac;
-    },
-    tone(f1, f2, dur, type, vol, delay) {
-        if (!this.enabled || !this.ensure()) return;
-        const t0 = this.ac.currentTime + (delay || 0);
-        const o = this.ac.createOscillator(), g = this.ac.createGain();
-        o.type = type || 'sine';
-        o.frequency.setValueAtTime(f1, t0);
-        if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
-        g.gain.setValueAtTime(0.0001, t0);
-        g.gain.exponentialRampToValueAtTime(vol || 0.06, t0 + 0.015);
-        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-        o.connect(g); g.connect(this.ac.destination);
-        o.start(t0); o.stop(t0 + dur + 0.05);
-    },
-    click() { this.tone(520, 760, 0.08, 'triangle', 0.05); },
-    success() { this.tone(523, 0, 0.1, 'sine', 0.06); this.tone(659, 0, 0.1, 'sine', 0.06, 0.09); this.tone(784, 1046, 0.18, 'sine', 0.07, 0.18); },
-    error() { this.tone(220, 110, 0.25, 'sawtooth', 0.05); },
-    warp() { this.tone(180, 1200, 0.5, 'sawtooth', 0.045); this.tone(90, 600, 0.55, 'sine', 0.05, 0.05); },
-    pop() { this.tone(900, 1400, 0.09, 'sine', 0.05); }
-};
-document.addEventListener('click', e => { if (e.target.closest('button, .btn, .feature, label')) SFX.click(); }, true);
 
 // === ترجمه‌ها ===
 const translations={
@@ -414,11 +329,9 @@ async function handleLogin(e){
       err.classList.add('show');
       btn.disabled=false;
       btn.innerHTML='<i class="ti ti-login-2"></i> '+translations[currentLang].login;
-      SFX.error();
       return;
     }
-    // انیمیشن خروج + صدای وارپ کیهانی
-    SFX.warp();
+    // انیمیشن خروج
     document.querySelector('.container').style.animation='cardOut .5s ease forwards';
     setTimeout(()=>{window.location.href='/dashboard';},400);
   }catch(e){
@@ -426,7 +339,6 @@ async function handleLogin(e){
     err.classList.add('show');
     btn.disabled=false;
     btn.innerHTML='<i class="ti ti-login-2"></i> '+translations[currentLang].login;
-    SFX.error();
   }
 }
 
@@ -454,7 +366,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>✦ PERSEPOLIS · کیهان ULTRA</title>
+<title>✦ PERSEPOLIS · کیهان</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
@@ -961,103 +873,10 @@ body.has-player-bar .main{padding-bottom:80px}
 .flatpickr-time input{color:var(--t1) !important}
 .flatpickr-time .flatpickr-time-separator{color:var(--t3) !important}
 .flatpickr-time .numInputWrapper:hover{background:rgba(0,240,255,0.05) !important}
-
-/* ============================================
-   ✦ ULTRA COSMIC v3.0 — قابلیت‌های جدید ✦
-   ============================================ */
-
-/* === شفق قطبی متحرک === */
-.aurora-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.75;transition:opacity .5s}
-body.light-theme .aurora-bg{opacity:.25}
-.aurora-bg i{position:absolute;display:block;border-radius:50%;filter:blur(110px);mix-blend-mode:screen;will-change:transform,opacity}
-.aurora-bg .a1{width:1000px;height:320px;top:-100px;right:-12%;background:linear-gradient(100deg,transparent,rgba(16,255,160,0.13),rgba(0,240,255,0.18),transparent);transform:rotate(-13deg);animation:auroraSweep 17s ease-in-out infinite}
-.aurora-bg .a2{width:850px;height:280px;top:12%;left:-14%;background:linear-gradient(80deg,transparent,rgba(123,47,247,0.16),rgba(0,240,255,0.12),transparent);transform:rotate(9deg);animation:auroraSweep 23s ease-in-out infinite reverse;animation-delay:-7s}
-.aurora-bg .a3{width:760px;height:240px;bottom:-60px;right:15%;background:linear-gradient(90deg,transparent,rgba(255,46,154,0.12),rgba(123,47,247,0.1),transparent);transform:rotate(-5deg);animation:auroraSweep 27s ease-in-out infinite;animation-delay:-14s}
-@keyframes auroraSweep{0%,100%{transform:translateX(0) rotate(-11deg) scaleY(1);opacity:.5}33%{transform:translateX(-80px) rotate(-6deg) scaleY(1.4);opacity:.85}66%{transform:translateX(70px) rotate(-15deg) scaleY(.75);opacity:.4}}
-
-/* === نوار وضعیت سرور (بالای صفحه) === */
-.srv-bar{position:fixed;top:0;right:0;left:0;height:3px;z-index:1000;background:linear-gradient(90deg,var(--green),var(--cyan));box-shadow:0 0 12px rgba(16,255,160,0.6);transition:background .6s,box-shadow .6s;pointer-events:none}
-.srv-bar.warn{background:linear-gradient(90deg,var(--amber),#ff9500);box-shadow:0 0 12px rgba(255,184,0,0.6)}
-.srv-bar.crit{background:linear-gradient(90deg,var(--red),#ff2e9a);box-shadow:0 0 12px rgba(255,77,109,0.7)}
-.srv-bar.off{background:var(--red);box-shadow:0 0 16px rgba(255,77,109,0.9);animation:srvBlink .8s ease-in-out infinite}
-@keyframes srvBlink{0%,100%{opacity:1}50%{opacity:.35}}
-
-/* === چیپ وضعیت سرور === */
-.srv-chip{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.4px;background:var(--green-bg);border:1px solid rgba(16,255,160,0.25);color:var(--green-t);transition:all .5s;cursor:default;position:relative;overflow:hidden}
-.srv-chip::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transform:translateX(-100%);animation:chipShine 3.5s ease infinite}
-@keyframes chipShine{0%{transform:translateX(-100%)}55%,100%{transform:translateX(100%)}}
-.srv-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:dotPulse 1.4s ease-in-out infinite}
-.srv-chip.warn{background:var(--amber-bg);border-color:rgba(255,184,0,0.3);color:var(--amber-t)}
-.srv-chip.warn .dot{background:var(--amber);box-shadow:0 0 8px var(--amber)}
-.srv-chip.crit{background:var(--red-bg);border-color:rgba(255,77,109,0.3);color:var(--red-t)}
-.srv-chip.crit .dot{background:var(--red);box-shadow:0 0 8px var(--red)}
-.srv-chip b{font-family:monospace;font-size:10px}
-
-/* === ساعت و تقویم شمسی === */
-.clock-widget{display:flex;align-items:center;gap:12px;padding:8px 16px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:14px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:all .4s}
-.clock-widget:hover{border-color:var(--border-strong);box-shadow:var(--glow-cyan)}
-.clock-widget::before{content:'';position:absolute;top:0;right:0;left:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.6}
-.clock-time{font-size:19px;font-weight:900;font-family:monospace;background:linear-gradient(135deg,#fff,var(--cyan),var(--magenta));background-size:200% 200%;animation:gradientFlow 6s ease infinite;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;direction:ltr}
-.clock-date{font-size:9.5px;color:var(--t2);font-weight:600;letter-spacing:.2px;line-height:1.5}
-.clock-date .fa-cal{color:var(--cyan);font-size:10px}
-.clock-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,rgba(0,240,255,0.12),rgba(123,47,247,0.12));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;animation:clockGlow 3s ease-in-out infinite}
-@keyframes clockGlow{0%,100%{box-shadow:0 0 10px rgba(0,240,255,0.2)}50%{box-shadow:0 0 22px rgba(255,46,154,0.35)}}
-.clock-sec{font-size:9px;color:var(--t3);font-family:monospace}
-
-/* === دکمه صدا === */
-.sfx-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border-subtle);background:var(--bg-card);color:var(--t2);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s var(--transition);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.sfx-btn:hover{border-color:var(--cyan);color:var(--cyan);transform:scale(1.08);box-shadow:var(--glow-cyan)}
-.sfx-btn.on{background:rgba(0,240,255,0.08);border-color:rgba(0,240,255,0.3);color:var(--cyan)}
-
-/* === کارت پینگ‌سنج زنده === */
-.ping-card{background:var(--bg-card);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:16px 18px;margin-top:14px;position:relative;overflow:hidden;transition:all .3s}
-.ping-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),var(--cyan),transparent);opacity:.5}
-.ping-card:hover{border-color:var(--border-strong)}
-.ping-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
-.ping-title{font-size:13px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:7px}
-.ping-title i{color:var(--cyan);filter:drop-shadow(0 0 6px var(--cyan))}
-.ping-quality{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:16px;font-size:10px;font-weight:800;transition:all .4s}
-.ping-quality .dot{width:7px;height:7px;border-radius:50%;animation:dotPulse 1.3s ease-in-out infinite}
-.pq-excellent{background:var(--green-bg);border:1px solid rgba(16,255,160,0.3);color:var(--green-t)}
-.pq-excellent .dot{background:var(--green);box-shadow:0 0 8px var(--green)}
-.pq-good{background:rgba(0,240,255,0.07);border:1px solid rgba(0,240,255,0.3);color:var(--cyan)}
-.pq-good .dot{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
-.pq-fair{background:var(--amber-bg);border:1px solid rgba(255,184,0,0.3);color:var(--amber-t)}
-.pq-fair .dot{background:var(--amber);box-shadow:0 0 8px var(--amber)}
-.pq-poor{background:var(--red-bg);border:1px solid rgba(255,77,109,0.3);color:var(--red-t)}
-.pq-poor .dot{background:var(--red);box-shadow:0 0 8px var(--red)}
-.ping-body{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
-@media(max-width:640px){.ping-body{grid-template-columns:1fr}}
-.ping-big{text-align:center;padding:14px 8px;background:rgba(0,240,255,0.04);border-radius:12px;border:1px solid var(--border-subtle);position:relative}
-.ping-big .num{font-size:30px;font-weight:900;font-family:monospace;color:var(--cyan);text-shadow:0 0 16px rgba(0,240,255,0.45);line-height:1.1;transition:color .4s}
-.ping-big .num.ms{font-size:11px;color:var(--t3);font-weight:700;margin-top:2px}
-.ping-big .lbl{font-size:9px;color:var(--t3);margin-top:4px;letter-spacing:.5px}
-.ping-big .minmax{display:flex;justify-content:center;gap:10px;margin-top:6px;font-size:8.5px;color:var(--t3);font-family:monospace}
-.ping-big .minmax b{color:var(--t2)}
-.ping-chart-wrap{position:relative;height:86px;width:100%}
-.ping-chart-wrap canvas{width:100%;height:100%;display:block}
-.ping-legend{display:flex;gap:14px;margin-top:8px;font-size:8.5px;color:var(--t3);flex-wrap:wrap}
-.ping-legend span{display:inline-flex;align-items:center;gap:4px}
-.ping-legend .lg-dot{width:5px;height:5px;border-radius:50%}
-
-/* === لوگوی SVG متحرک === */
-.logo-icon{overflow:visible}
-.logo-icon svg{width:62%;height:62%;filter:drop-shadow(0 0 8px rgba(0,240,255,0.7))}
-.logo-icon .pp-col{animation:ppColWave 2.6s ease-in-out infinite}
-.logo-icon .pp-col.c2{animation-delay:.25s}
-.logo-icon .pp-col.c3{animation-delay:.5s}
-.logo-icon .pp-roof{animation:ppRoofGlow 3.2s ease-in-out infinite}
-@keyframes ppColWave{0%,100%{opacity:.65;transform:translateY(0)}50%{opacity:1;transform:translateY(-1.5px)}}
-@keyframes ppRoofGlow{0%,100%{filter:drop-shadow(0 0 3px rgba(0,240,255,0.6))}50%{filter:drop-shadow(0 0 10px rgba(255,46,154,0.9))}}
-.mob-logo svg{width:70%;height:70%}
-.pb-logo{overflow:visible}
-.pb-logo svg{width:70%;height:70%;filter:drop-shadow(0 0 6px rgba(0,240,255,0.6))}
 </style>
 </head>
 <body>
 <canvas id="starfield-bg"></canvas>
-<div class="aurora-bg"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
-<div class="srv-bar" id="srvBar"></div>
 <div class="nebula-bg nebula-bg-1"></div><div class="nebula-bg nebula-bg-2"></div>
 <div class="toast" id="toast"></div>
 
@@ -1185,13 +1004,13 @@ body.light-theme .aurora-bg{opacity:.25}
 </div>
 
 <div class="mob-top">
-  <div class="ml"><div class="mob-logo"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ppGradMob" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="0.5" stop-color="#7b2ff7"/><stop offset="1" stop-color="#ff2e9a"/></linearGradient></defs><g class="pp-roof"><rect x="6" y="8" width="52" height="6" rx="2" fill="url(#ppGradMob)"/><rect x="10" y="16" width="44" height="4" rx="2" fill="url(#ppGradMob)" opacity="0.75"/></g><rect class="pp-col c1" x="13" y="23" width="6" height="27" rx="2" fill="url(#ppGradMob)"/><rect class="pp-col c2" x="29" y="23" width="6" height="27" rx="2" fill="url(#ppGradMob)" opacity="0.85"/><rect class="pp-col c3" x="45" y="23" width="6" height="27" rx="2" fill="url(#ppGradMob)" opacity="0.7"/><rect x="7" y="52" width="50" height="5" rx="2" fill="url(#ppGradMob)"/></svg></div><span class="mob-title">PERSEPOLIS</span></div>
+  <div class="ml"><div class="mob-logo">🏛️</div><span class="mob-title">PERSEPOLIS</span></div>
   <button class="menu-btn" id="open-sb"><i class="ti ti-menu-2"></i></button>
 </div>
 <div class="overlay" id="overlay"></div>
 
 <aside class="sidebar" id="sb">
-  <div class="logo"><div class="logo-icon"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ppGradSb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="0.5" stop-color="#7b2ff7"/><stop offset="1" stop-color="#ff2e9a"/></linearGradient></defs><g class="pp-roof"><rect x="6" y="8" width="52" height="6" rx="2" fill="url(#ppGradSb)"/><rect x="10" y="16" width="44" height="4" rx="2" fill="url(#ppGradSb)" opacity="0.75"/></g><rect class="pp-col c1" x="13" y="23" width="6" height="27" rx="2" fill="url(#ppGradSb)"/><rect class="pp-col c2" x="29" y="23" width="6" height="27" rx="2" fill="url(#ppGradSb)" opacity="0.85"/><rect class="pp-col c3" x="45" y="23" width="6" height="27" rx="2" fill="url(#ppGradSb)" opacity="0.7"/><rect x="7" y="52" width="50" height="5" rx="2" fill="url(#ppGradSb)"/></svg></div><div><div class="logo-name">PERSEPOLIS</div><div class="logo-sub">COSMIC · ULTRA</div></div></div>
+  <div class="logo"><div class="logo-icon">🏛️</div><div><div class="logo-name">PERSEPOLIS</div><div class="logo-sub">COSMIC PANEL</div></div></div>
   <div class="nav-wrap">
     <div class="nav-it on" data-pg="dashboard"><i class="ti ti-layout-dashboard"></i> <span id="nav-home">خانه</span></div>
     <div class="nav-it" data-pg="users"><i class="ti ti-users"></i> <span id="nav-users">کاربران</span></div>
@@ -1217,19 +1036,8 @@ body.light-theme .aurora-bg{opacity:.25}
 <!-- صفحه خانه -->
 <section class="pg on" id="pg-dashboard">
   <div class="topbar">
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <div><div class="tb-title"><i class="ti ti-layout-dashboard"></i> <span id="dash-title">خانه</span></div><div class="tb-sub" id="last-update">بروزرسانی: لحظه‌ای</div></div>
-      <div class="clock-widget" id="clockWidget">
-        <div class="clock-icon"><i class="ti ti-clock-bolt"></i></div>
-        <div>
-          <div class="clock-time" id="faClockTime">--:--:--</div>
-          <div class="clock-date"><i class="ti ti-calendar-star fa-cal"></i> <span id="faClockDate">—</span></div>
-        </div>
-      </div>
-    </div>
+    <div><div class="tb-title"><i class="ti ti-layout-dashboard"></i> <span id="dash-title">خانه</span></div><div class="tb-sub" id="last-update">بروزرسانی: لحظه‌ای</div></div>
     <div class="tb-right">
-      <span class="srv-chip" id="srvChip"><span class="dot"></span> <span id="srvChipText">در حال بررسی…</span></span>
-      <button class="sfx-btn" id="sfxToggle" onclick="toggleSFX()" title="جلوه صوتی"><i class="ti ti-volume-2" id="sfxIcon"></i></button>
       <span class="badge bg-fire" id="online-badge"><span class="dot dg"></span> ۰ آنلاین</span>
       <button class="btn btn-p btn-sm" onclick="openModal('modal-user')"><i class="ti ti-plus"></i> <span id="dash-add-user">کاربر</span></button>
     </div>
@@ -1299,31 +1107,6 @@ body.light-theme .aurora-bg{opacity:.25}
       <div class="gauge-value">
         <div class="gauge-num" id="gaugeNum">0 B/s</div>
         <div class="gauge-label" id="gaugeLabel">سرعت دانلود لحظه‌ای</div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- ✦ پینگ‌سنج زنده (Live Ping Monitor) -->
-  <div class="ping-card" id="pingCard">
-    <div class="ping-head">
-      <span class="ping-title"><i class="ti ti-wave-sine"></i> <span id="ping-title-text">پینگ‌سنج زنده</span></span>
-      <span class="ping-quality pq-good" id="pingQuality"><span class="dot"></span> <span id="pingQualityText">در حال اندازه‌گیری…</span></span>
-    </div>
-    <div class="ping-body">
-      <div class="ping-big">
-        <div class="num" id="pingNum">—</div>
-        <div class="num ms">ms</div>
-        <div class="lbl" id="pingLbl">تاخیر لحظه‌ای به سرور</div>
-        <div class="minmax"><span>↓ <b id="pingMin">—</b></span><span>↑ <b id="pingMax">—</b></span><span>∝ <b id="pingAvg">—</b></span></div>
-      </div>
-      <div>
-        <div class="ping-chart-wrap"><canvas id="pingChart"></canvas></div>
-        <div class="ping-legend">
-          <span><i class="lg-dot" style="background:#10ffa0;box-shadow:0 0 6px #10ffa0"></i> عالی &lt;۱۰۰</span>
-          <span><i class="lg-dot" style="background:#00f0ff;box-shadow:0 0 6px #00f0ff"></i> خوب &lt;۳۰۰</span>
-          <span><i class="lg-dot" style="background:#ffb800;box-shadow:0 0 6px #ffb800"></i> متوسط &lt;۶۰۰</span>
-          <span><i class="lg-dot" style="background:#ff4d6d;box-shadow:0 0 6px #ff4d6d"></i> ضعیف +۶۰۰</span>
-        </div>
       </div>
     </div>
   </div>
@@ -1532,8 +1315,6 @@ body.light-theme .aurora-bg{opacity:.25}
   
   <div class="settings-card"><div class="title"><i class="ti ti-color-palette"></i> <span id="set-rgb-title">حالت RGB متحرک</span></div><div class="toggle-row"><div class="toggle-label"><i class="ti ti-color-swatch" style="background:linear-gradient(135deg,#ff0000,#00ff00,#0000ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent"></i> چرخش رنگ‌های RGB</div><div class="switch" id="rgb-switch" onclick="toggleRGB()"><div class="slider"></div></div></div></div>
   
-  <div class="settings-card"><div class="title"><i class="ti ti-music"></i> <span id="set-sfx-title">جلوه‌های صوتی کیهانی</span></div><div class="toggle-row"><div class="toggle-label"><i class="ti ti-volume-2" style="color:var(--cyan)"></i> صدای دکمه‌ها و اعلان‌ها</div><div class="switch" id="sfx-switch" onclick="toggleSFX()"><div class="slider"></div></div></div><div style="display:flex;gap:6px;margin-top:10px"><button class="btn btn-pur btn-sm" onclick="SFX.success()" style="flex:1"><i class="ti ti-sparkles"></i> تست موفقیت</button><button class="btn btn-o btn-sm" onclick="SFX.warp()" style="flex:1"><i class="ti ti-rocket"></i> تست وارپ</button><button class="btn btn-d btn-sm" onclick="SFX.error()" style="flex:1"><i class="ti ti-alert-triangle"></i> تست خطا</button></div><div style="font-size:9.5px;color:var(--t3);margin-top:8px">💡 صداهای فوتوریستی بدون فایل خارجی — با WebAudio ساخته می‌شوند</div></div>
-  
 </section>
 
 <!-- صفحه لاگ‌ها -->
@@ -1567,10 +1348,10 @@ body.light-theme .aurora-bg{opacity:.25}
 <!-- ==================== WTF #11: Player-style Bottom Bar ==================== -->
 <div class="player-bar" id="playerBar">
   <div class="player-bar-left">
-    <div class="pb-logo"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ppGradPb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="0.5" stop-color="#7b2ff7"/><stop offset="1" stop-color="#ff2e9a"/></linearGradient></defs><rect x="6" y="8" width="52" height="6" rx="2" fill="url(#ppGradPb)"/><rect x="10" y="16" width="44" height="4" rx="2" fill="url(#ppGradPb)" opacity="0.75"/><rect x="13" y="23" width="6" height="27" rx="2" fill="url(#ppGradPb)"/><rect x="29" y="23" width="6" height="27" rx="2" fill="url(#ppGradPb)" opacity="0.85"/><rect x="45" y="23" width="6" height="27" rx="2" fill="url(#ppGradPb)" opacity="0.7"/><rect x="7" y="52" width="50" height="5" rx="2" fill="url(#ppGradPb)"/></svg></div>
+    <div class="pb-logo">🏛️</div>
     <div>
       <div style="font-size:12px;font-weight:800;color:var(--t1)">PERSEPOLIS</div>
-      <div style="font-size:8px;color:var(--t3);letter-spacing:1px">COSMIC · v3.0 ULTRA</div>
+      <div style="font-size:8px;color:var(--t3);letter-spacing:1px">COSMIC · v2.0</div>
     </div>
   </div>
   <div class="player-bar-center">
@@ -1591,81 +1372,44 @@ body.light-theme .aurora-bg{opacity:.25}
 <div class="theme-reveal" id="themeReveal"></div>
 
 <script>
-// === ✦ ULTRA COSMIC: ستاره‌های پارالاکس + شهاب‌سنگ (Canvas) ===
+// === ستاره‌های متحرک (Canvas) ===
 const canvasBg = document.getElementById('starfield-bg');
 const ctxBg = canvasBg.getContext('2d');
-let starsBg = [], meteorsBg = [], mouseBg = {x: 0.5, y: 0.5};
+let starsBg = [];
 function resizeCanvasBg() {
     canvasBg.width = window.innerWidth;
     canvasBg.height = window.innerHeight;
     starsBg = [];
-    const count = Math.floor((canvasBg.width * canvasBg.height) / 9000);
+    const count = Math.floor((canvasBg.width * canvasBg.height) / 12000);
     for (let i = 0; i < count; i++) {
         starsBg.push({
             x: Math.random() * canvasBg.width,
             y: Math.random() * canvasBg.height,
-            r: Math.random() * 1.3 + 0.2,
+            r: Math.random() * 1.2 + 0.2,
             o: Math.random() * 0.6 + 0.2,
             tw: Math.random() * Math.PI * 2,
-            depth: Math.random(),
             color: Math.random() > 0.85 ? '#00f0ff' : (Math.random() > 0.7 ? '#ff2e9a' : '#ffffff')
         });
     }
 }
-function spawnMeteorBg() {
-    const sx = Math.random() * canvasBg.width * 0.85 + canvasBg.width * 0.08;
-    meteorsBg.push({
-        x: sx, y: -30,
-        vx: -(Math.random() * 6 + 4),
-        vy: Math.random() * 4 + 4,
-        len: Math.random() * 100 + 60,
-        life: 1, hue: Math.random() > 0.5 ? '#00f0ff' : '#ff2e9a'
-    });
-}
 function drawStarsBg() {
     ctxBg.clearRect(0, 0, canvasBg.width, canvasBg.height);
-    const px = (mouseBg.x - 0.5), py = (mouseBg.y - 0.5);
     starsBg.forEach(s => {
         s.tw += 0.015;
         const op = s.o * (0.5 + 0.5 * Math.sin(s.tw));
-        const ox = px * 22 * s.depth, oy = py * 15 * s.depth;
         ctxBg.beginPath();
-        ctxBg.arc(s.x + ox, s.y + oy, s.r, 0, Math.PI * 2);
+        ctxBg.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctxBg.fillStyle = s.color;
         ctxBg.globalAlpha = op;
-        ctxBg.shadowBlur = 6 + s.depth * 6;
+        ctxBg.shadowBlur = 6;
         ctxBg.shadowColor = s.color;
         ctxBg.fill();
     });
-    // شهاب‌سنگ‌ها
-    if (Math.random() < 0.01 && meteorsBg.length < 3) spawnMeteorBg();
-    for (let i = meteorsBg.length - 1; i >= 0; i--) {
-        const m = meteorsBg[i];
-        m.x += m.vx; m.y += m.vy; m.life -= 0.007;
-        if (m.life <= 0 || m.y > canvasBg.height + 100) { meteorsBg.splice(i, 1); continue; }
-        const grad = ctxBg.createLinearGradient(m.x, m.y, m.x - m.vx * (m.len / 8), m.y - m.vy * (m.len / 8));
-        grad.addColorStop(0, m.hue);
-        grad.addColorStop(1, 'transparent');
-        ctxBg.strokeStyle = grad;
-        ctxBg.lineWidth = 2;
-        ctxBg.globalAlpha = Math.min(m.life, 1);
-        ctxBg.shadowBlur = 12;
-        ctxBg.shadowColor = m.hue;
-        ctxBg.beginPath();
-        ctxBg.moveTo(m.x, m.y);
-        ctxBg.lineTo(m.x - m.vx * (m.len / 8), m.y - m.vy * (m.len / 8));
-        ctxBg.stroke();
-        ctxBg.beginPath();
-        ctxBg.arc(m.x, m.y, 2.2, 0, Math.PI * 2);
-        ctxBg.fillStyle = '#fff';
-        ctxBg.fill();
-    }
     ctxBg.globalAlpha = 1;
     ctxBg.shadowBlur = 0;
     requestAnimationFrame(drawStarsBg);
 }
 window.addEventListener('resize', resizeCanvasBg);
-window.addEventListener('mousemove', e => { mouseBg.x = e.clientX / window.innerWidth; mouseBg.y = e.clientY / window.innerHeight; });
 resizeCanvasBg();
 drawStarsBg();
 
@@ -1977,10 +1721,10 @@ function updateUITexts() {
   
   // WTF Factor translations
   document.getElementById('gauge-title').textContent = t.gauge_title;
-  document.getElementById('gaugeLabel').textContent = t.gauge_label;
+  document.getElementById('gauge-label').textContent = t.gauge_label;
   document.getElementById('map-title').textContent = t.map_title;
   document.getElementById('donut-title-text').textContent = t.donut_title;
-  document.getElementById('donutLbl').textContent = t.donut_label;
+  document.getElementById('donut-lbl').textContent = t.donut_label;
   document.getElementById('activity-title').textContent = t.activity_title;
   document.getElementById('cmdk-input') && (document.getElementById('cmdkInput').placeholder = t.cmdk_placeholder);
   const searchInput = document.getElementById('userSearch');
@@ -2092,190 +1836,7 @@ function toast(msg, type = '') {
   tEl.className = 'toast show' + (type ? ' ' + type : '');
   clearTimeout(tEl._timeout);
   tEl._timeout = setTimeout(() => tEl.classList.remove('show'), 2500);
-  // ✦ صدای همراه توست
-  if (type === 'ok') SFX.success();
-  else if (type === 'err') SFX.error();
-  else if (type === 'warn') SFX.pop();
 }
-
-/* ============================================
-   ✦ ULTRA COSMIC v3.0 — هسته قابلیت‌های جدید ✦
-   ============================================ */
-
-// ===== ✦ ۱) موتور جلوه صوتی فوتوریستی (WebAudio) =====
-const SFX = {
-  ac: null,
-  enabled: localStorage.getItem('pp-sfx') !== 'off',
-  ensure() {
-    if (!this.ac) { try { this.ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return false; } }
-    if (this.ac && this.ac.state === 'suspended') this.ac.resume();
-    return !!this.ac;
-  },
-  tone(f1, f2, dur, type, vol, delay) {
-    if (!this.enabled || !this.ensure()) return;
-    try {
-      const t0 = this.ac.currentTime + (delay || 0);
-      const o = this.ac.createOscillator(), g = this.ac.createGain();
-      o.type = type || 'sine';
-      o.frequency.setValueAtTime(f1, t0);
-      if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
-      g.gain.setValueAtTime(0.0001, t0);
-      g.gain.exponentialRampToValueAtTime(vol || 0.05, t0 + 0.015);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-      o.connect(g); g.connect(this.ac.destination);
-      o.start(t0); o.stop(t0 + dur + 0.05);
-    } catch (e) {}
-  },
-  click() { this.tone(520, 760, 0.08, 'triangle', 0.04); },
-  success() { this.tone(523, 0, 0.1, 'sine', 0.055); this.tone(659, 0, 0.1, 'sine', 0.055, 0.09); this.tone(784, 1046, 0.18, 'sine', 0.065, 0.18); },
-  error() { this.tone(220, 110, 0.25, 'sawtooth', 0.045); },
-  warp() { this.tone(180, 1200, 0.5, 'sawtooth', 0.04); this.tone(90, 600, 0.55, 'sine', 0.045, 0.05); },
-  pop() { this.tone(900, 1400, 0.09, 'sine', 0.045); },
-  ping(good) { if (good) this.tone(700, 1000, 0.07, 'sine', 0.03); else this.tone(400, 250, 0.12, 'triangle', 0.035); }
-};
-function toggleSFX() {
-  SFX.enabled = !SFX.enabled;
-  localStorage.setItem('pp-sfx', SFX.enabled ? 'on' : 'off');
-  updateSFXUI();
-  if (SFX.enabled) SFX.success();
-  toast(SFX.enabled ? (currentLang === 'fa' ? '🔊 جلوه صوتی روشن شد' : '🔊 Sound enabled') : (currentLang === 'fa' ? '🔇 جلوه صوتی خاموش شد' : '🔇 Sound disabled'), '');
-}
-function updateSFXUI() {
-  const btn = document.getElementById('sfxToggle');
-  const icon = document.getElementById('sfxIcon');
-  const sw = document.getElementById('sfx-switch');
-  if (btn) btn.classList.toggle('on', SFX.enabled);
-  if (icon) icon.className = SFX.enabled ? 'ti ti-volume-2' : 'ti ti-volume-off';
-  if (sw) sw.classList.toggle('on', SFX.enabled);
-}
-// صدای کلیک روی دکمه‌ها
-document.addEventListener('click', e => {
-  if (e.target.closest('.btn, button:not(#sfxToggle), .nav-it, .filter-chip, .switch')) SFX.click();
-}, true);
-// صدای باز شدن مودال
-const _openModal = openModal;
-openModal = function(id) { _openModal(id); SFX.pop(); };
-// صدای تعویض تب
-const _navTo = navTo;
-navTo = function(name) { if (name !== (document.querySelector('.nav-it.on') || {}).dataset?.pg) SFX.tone(340, 620, 0.12, 'sine', 0.04); _navTo(name); };
-
-// ===== ✦ ۲) پینگ‌سنج زنده =====
-const pingState = { hist: [], min: null, max: null, timer: null, lastBad: false };
-async function measurePing() {
-  const t0 = performance.now();
-  try {
-    await fetch('/api/me?_p=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
-    return Math.round(performance.now() - t0);
-  } catch (e) { return -1; }
-}
-function pingQualityInfo(ms) {
-  if (ms < 0) return { cls: 'pq-poor', txt: currentLang === 'fa' ? '⛔ قطع ارتباط' : 'Disconnected', color: '#ff4d6d', bar: 'crit' };
-  if (ms < 100) return { cls: 'pq-excellent', txt: currentLang === 'fa' ? '✦ عالی' : 'Excellent', color: '#10ffa0', bar: '' };
-  if (ms < 300) return { cls: 'pq-good', txt: currentLang === 'fa' ? '✦ خوب' : 'Good', color: '#00f0ff', bar: '' };
-  if (ms < 600) return { cls: 'pq-fair', txt: currentLang === 'fa' ? '✦ متوسط' : 'Fair', color: '#ffb800', bar: 'warn' };
-  return { cls: 'pq-poor', txt: currentLang === 'fa' ? '✦ ضعیف' : 'Poor', color: '#ff4d6d', bar: 'crit' };
-}
-function updateServerStatusBar(ms) {
-  const q = pingQualityInfo(ms);
-  const bar = document.getElementById('srvBar');
-  const chip = document.getElementById('srvChip');
-  const chipTxt = document.getElementById('srvChipText');
-  if (bar) { bar.className = 'srv-bar' + (q.bar ? ' ' + q.bar : ''); }
-  if (chip) { chip.className = 'srv-chip' + (q.bar && q.bar !== 'crit' ? ' ' + q.bar : (q.bar === 'crit' ? ' crit' : '')); }
-  if (chipTxt) {
-    if (ms < 0) chipTxt.textContent = currentLang === 'fa' ? 'سرور قطع' : 'Server down';
-    else chipTxt.innerHTML = (currentLang === 'fa' ? 'سرور آنلاین · ' : 'Online · ') + '<b>' + ms + 'ms</b>';
-  }
-}
-function drawPingChart() {
-  const cv = document.getElementById('pingChart');
-  if (!cv) return;
-  const w = cv.clientWidth || 300, h = cv.clientHeight || 86;
-  if (cv.width !== w * 2) { cv.width = w * 2; cv.height = h * 2; }
-  const c = cv.getContext('2d');
-  c.setTransform(2, 0, 0, 2, 0, 0);
-  c.clearRect(0, 0, w, h);
-  const hist = pingState.hist.slice(-40);
-  if (!hist.length) return;
-  const maxMs = Math.max(600, ...hist.filter(v => v >= 0)) * 1.1;
-  const bw = w / 40;
-  // خطوط راهنما
-  c.strokeStyle = 'rgba(100,200,255,0.07)';
-  c.lineWidth = 1;
-  [0.25, 0.5, 0.75].forEach(f => { c.beginPath(); c.moveTo(0, h * f); c.lineTo(w, h * f); c.stroke(); });
-  // میله‌ها
-  hist.forEach((v, i) => {
-    const x = i * bw + (w - hist.length * bw) / 2;
-    let bh, col;
-    if (v < 0) { bh = h * 0.92; col = 'rgba(255,77,109,0.75)'; }
-    else {
-      bh = Math.max(4, (v / maxMs) * h * 0.9);
-      col = v < 100 ? 'rgba(16,255,160,0.8)' : v < 300 ? 'rgba(0,240,255,0.8)' : v < 600 ? 'rgba(255,184,0,0.8)' : 'rgba(255,77,109,0.85)';
-    }
-    const g = c.createLinearGradient(0, h - bh, 0, h);
-    g.addColorStop(0, col);
-    g.addColorStop(1, col.replace('0.8', '0.15').replace('0.75', '0.15').replace('0.85', '0.15'));
-    c.fillStyle = g;
-    c.beginPath();
-    const r = Math.min(2, bw / 3);
-    c.roundRect ? c.roundRect(x, h - bh, bw * 0.62, bh, r) : c.rect(x, h - bh, bw * 0.62, bh);
-    c.fill();
-  });
-  // خط میانگین
-  const valid = hist.filter(v => v >= 0);
-  if (valid.length) {
-    const avg = valid.reduce((a, b) => a + b, 0) / valid.length;
-    const ay = h - Math.max(4, (avg / maxMs) * h * 0.9);
-    c.strokeStyle = 'rgba(255,46,154,0.5)';
-    c.setLineDash([4, 4]);
-    c.lineWidth = 1;
-    c.beginPath(); c.moveTo(0, ay); c.lineTo(w, ay); c.stroke();
-    c.setLineDash([]);
-  }
-}
-async function pingLoop(first) {
-  const ms = await measurePing();
-  pingState.hist.push(ms);
-  if (pingState.hist.length > 60) pingState.hist.shift();
-  const valid = pingState.hist.filter(v => v >= 0);
-  if (valid.length) {
-    pingState.min = Math.min(...valid);
-    pingState.max = Math.max(...valid);
-  }
-  const num = document.getElementById('pingNum');
-  const q = pingQualityInfo(ms);
-  if (num) {
-    num.textContent = ms < 0 ? '✕' : ms;
-    num.style.color = q.color;
-    num.style.textShadow = '0 0 16px ' + q.color + '66';
-  }
-  const qEl = document.getElementById('pingQuality');
-  if (qEl) { qEl.className = 'ping-quality ' + q.cls; document.getElementById('pingQualityText').textContent = q.txt + (ms >= 0 ? ' · ' + ms + 'ms' : ''); }
-  document.getElementById('pingMin').textContent = pingState.min !== null ? pingState.min : '—';
-  document.getElementById('pingMax').textContent = pingState.max !== null ? pingState.max : '—';
-  document.getElementById('pingAvg').textContent = valid.length ? Math.round(valid.reduce((a, b) => a + b, 0) / valid.length) : '—';
-  updateServerStatusBar(ms);
-  drawPingChart();
-  if (first && ms >= 0) SFX.ping(ms < 300);
-}
-function startPingMonitor() {
-  pingLoop(true);
-  pingState.timer = setInterval(() => pingLoop(false), 5000);
-  window.addEventListener('resize', () => drawPingChart());
-}
-
-// ===== ✦ ۳) ساعت دیجیتال + تقویم شمسی =====
-function updateFaClock() {
-  const now = new Date();
-  try {
-    const time = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const el = document.getElementById('faClockTime');
-    if (el) el.textContent = time;
-    const dEl = document.getElementById('faClockDate');
-    if (dEl) dEl.textContent = new Intl.DateTimeFormat('fa-IR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(now);
-  } catch (e) {}
-}
-function startFaClock() { updateFaClock(); setInterval(updateFaClock, 1000); }
 
 function fmtB(b) {
   if (!b || b === 0) return '0 B';
@@ -3812,7 +3373,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch(e) { location.href = '/login'; }
   
   await loadThemeFromServer();
-  try { setLang(currentLang); } catch(e) { console.warn('setLang:', e); }
+  setLang(currentLang);
   await loadRGBStatus();
   initDatePickers();
   
@@ -3832,11 +3393,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadActivityFeed();
   loadProtocolDonut();
   initKeyboardShortcuts();
-  
-  // === ✦ ULTRA COSMIC v3.0 initialization ===
-  updateSFXUI();
-  startPingMonitor();
-  startFaClock();
   
   // اضافه کردن کارت درخواست notification به تنظیمات
   addNotifPermissionCard();
@@ -3943,7 +3499,7 @@ def get_sub_page_html(uuid: str, link: dict) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>✦ {label} · Persepolis</title>
+<title>✦ {{label}} · Persepolis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
@@ -4108,32 +3664,10 @@ body{{font-family:'Vazirmatn',sans-serif;min-height:100vh;display:flex;align-ite
 .toast.ok{{border-color:rgba(16,255,160,0.3);color:var(--green-text);box-shadow:0 8px 30px rgba(16,255,160,0.2)}}
 
 @media(max-width:420px){{.card{{padding:20px 14px;margin-top:80px}}.user-name{{font-size:19px}}.stats-card-grid{{gap:6px}}.stat-info-value{{font-size:15px}}.apps-grid{{grid-template-columns:repeat(4,1fr)}}.app-btn .app-icon{{font-size:20px}}}}
-
-/* ============================================
-   ✦ ULTRA COSMIC v3.0 — صفحه اشتراک ✦
-   ============================================ */
-.aurora{{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.85}}
-.aurora i{{position:absolute;display:block;border-radius:50%;filter:blur(100px);mix-blend-mode:screen;will-change:transform,opacity}}
-.aurora .a1{{width:800px;height:280px;top:-90px;right:-10%;background:linear-gradient(100deg,transparent,rgba(16,255,160,0.14),rgba(0,240,255,0.2),transparent);transform:rotate(-12deg);animation:auroraSweep 17s ease-in-out infinite}}
-.aurora .a2{{width:700px;height:240px;top:14%;left:-12%;background:linear-gradient(80deg,transparent,rgba(123,47,247,0.17),rgba(0,240,255,0.11),transparent);transform:rotate(9deg);animation:auroraSweep 22s ease-in-out infinite reverse;animation-delay:-6s}}
-.aurora .a3{{width:600px;height:200px;bottom:-60px;right:10%;background:linear-gradient(90deg,transparent,rgba(255,46,154,0.13),rgba(123,47,247,0.1),transparent);transform:rotate(-5deg);animation:auroraSweep 26s ease-in-out infinite;animation-delay:-13s}}
-@keyframes auroraSweep{{0%,100%{{transform:translateX(0) rotate(-11deg) scaleY(1);opacity:.5}}33%{{transform:translateX(-60px) rotate(-6deg) scaleY(1.4);opacity:.85}}66%{{transform:translateX(50px) rotate(-15deg) scaleY(.8);opacity:.4}}}}
-
-.brand-icon{{overflow:visible}}
-.brand-icon svg{{width:62%;height:62%;filter:drop-shadow(0 0 8px rgba(0,240,255,0.7))}}
-.brand-icon .pp-col{{animation:ppColWave 2.6s ease-in-out infinite}}
-.brand-icon .pp-col.c2{{animation-delay:.25s}}
-.brand-icon .pp-col.c3{{animation-delay:.5s}}
-.brand-icon .pp-roof{{animation:ppRoofGlow 3.2s ease-in-out infinite}}
-@keyframes ppColWave{{0%,100%{{opacity:.65;transform:translateY(0)}}50%{{opacity:1;transform:translateY(-1.5px)}}}}
-@keyframes ppRoofGlow{{0%,100%{{filter:drop-shadow(0 0 3px rgba(0,240,255,0.6))}}50%{{filter:drop-shadow(0 0 10px rgba(255,46,154,0.9))}}}}
-.orbit-ring{{position:absolute;inset:-7px;border-radius:14px;border:1px dashed rgba(0,240,255,0.35);animation:spinOrbit 14s linear infinite;pointer-events:none}}
-@keyframes spinOrbit{{to{{transform:rotate(360deg)}}}}
 </style>
 </head>
 <body>
 <canvas id="starfield"></canvas>
-<div class="aurora"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
 <div class="nebula nebula1"></div><div class="nebula nebula2"></div><div class="nebula nebula3"></div>
 <div class="grid-bg"></div>
 <div class="toast" id="toast"></div>
@@ -4152,10 +3686,10 @@ body{{font-family:'Vazirmatn',sans-serif;min-height:100vh;display:flex;align-ite
 <div class="card" id="mainCard">
     <div class="card-header">
         <div class="brand">
-            <div class="brand-icon"><div class="orbit-ring"></div><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ppGradSub" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="0.5" stop-color="var(--accent2)"/><stop offset="1" stop-color="var(--accent3)"/></linearGradient></defs><g class="pp-roof"><rect x="6" y="8" width="52" height="6" rx="2" fill="url(#ppGradSub)"/><rect x="10" y="16" width="44" height="4" rx="2" fill="url(#ppGradSub)" opacity="0.75"/></g><rect class="pp-col c1" x="13" y="23" width="6" height="27" rx="2" fill="url(#ppGradSub)"/><rect class="pp-col c2" x="29" y="23" width="6" height="27" rx="2" fill="url(#ppGradSub)" opacity="0.85"/><rect class="pp-col c3" x="45" y="23" width="6" height="27" rx="2" fill="url(#ppGradSub)" opacity="0.7"/><rect x="7" y="52" width="50" height="5" rx="2" fill="url(#ppGradSub)"/></svg></div>
+            <div class="brand-icon">🏛️</div>
             <div>
                 <div class="brand-text">PERSEPOLIS</div>
-                <div class="brand-sub">COSMIC SUBSCRIPTION · v3.0</div>
+                <div class="brand-sub">COSMIC SUBSCRIPTION</div>
             </div>
         </div>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
@@ -4270,15 +3804,15 @@ body{{font-family:'Vazirmatn',sans-serif;min-height:100vh;display:flex;align-ite
 </div>
 
 <script>
-// === ✦ ULTRA COSMIC: ستاره‌های پارالاکس + شهاب‌سنگ Canvas ===
+// === ستاره‌های متحرک Canvas ===
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
-let stars = [], meteors = [], mouse = {{x: 0.5, y: 0.5}};
+let stars = [];
 function resizeCanvas() {{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     stars = [];
-    const count = Math.floor((canvas.width * canvas.height) / 8000);
+    const count = Math.floor((canvas.width * canvas.height) / 10000);
     for (let i = 0; i < count; i++) {{
         stars.push({{
             x: Math.random() * canvas.width,
@@ -4286,95 +3820,30 @@ function resizeCanvas() {{
             r: Math.random() * 1.4 + 0.3,
             o: Math.random() * 0.7 + 0.2,
             tw: Math.random() * Math.PI * 2,
-            depth: Math.random(),
             color: Math.random() > 0.85 ? '#00f0ff' : (Math.random() > 0.7 ? '#ff2e9a' : '#ffffff')
         }});
     }}
 }}
-function spawnMeteor() {{
-    const sx = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
-    meteors.push({{
-        x: sx, y: -30,
-        vx: -(Math.random() * 5 + 3),
-        vy: Math.random() * 3.5 + 3,
-        len: Math.random() * 80 + 50,
-        life: 1, hue: Math.random() > 0.5 ? '#00f0ff' : '#ff2e9a'
-    }});
-}}
 function drawStars() {{
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const px = (mouse.x - 0.5), py = (mouse.y - 0.5);
     stars.forEach(s => {{
         s.tw += 0.018;
         const op = s.o * (0.5 + 0.5 * Math.sin(s.tw));
-        const ox = px * 20 * s.depth, oy = py * 14 * s.depth;
         ctx.beginPath();
-        ctx.arc(s.x + ox, s.y + oy, s.r, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fillStyle = s.color;
         ctx.globalAlpha = op;
-        ctx.shadowBlur = 7 + s.depth * 5;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = s.color;
         ctx.fill();
     }});
-    if (Math.random() < 0.01 && meteors.length < 3) spawnMeteor();
-    for (let i = meteors.length - 1; i >= 0; i--) {{
-        const m = meteors[i];
-        m.x += m.vx; m.y += m.vy; m.life -= 0.007;
-        if (m.life <= 0 || m.y > canvas.height + 100) {{ meteors.splice(i, 1); continue; }}
-        const grad = ctx.createLinearGradient(m.x, m.y, m.x - m.vx * (m.len / 8), m.y - m.vy * (m.len / 8));
-        grad.addColorStop(0, m.hue);
-        grad.addColorStop(1, 'transparent');
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 2;
-        ctx.globalAlpha = Math.min(m.life, 1);
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = m.hue;
-        ctx.beginPath();
-        ctx.moveTo(m.x, m.y);
-        ctx.lineTo(m.x - m.vx * (m.len / 8), m.y - m.vy * (m.len / 8));
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(m.x, m.y, 2.2, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff';
-        ctx.fill();
-    }}
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
     requestAnimationFrame(drawStars);
 }}
 window.addEventListener('resize', resizeCanvas);
-window.addEventListener('mousemove', e => {{ mouse.x = e.clientX / window.innerWidth; mouse.y = e.clientY / window.innerHeight; }});
 resizeCanvas();
 drawStars();
-
-// === ✦ جلوه صوتی سبک (WebAudio) ===
-const SFX = {{
-    ac: null,
-    ensure() {{
-        if (!this.ac) {{ try {{ this.ac = new (window.AudioContext || window.webkitAudioContext)(); }} catch (e) {{ return false; }} }}
-        if (this.ac && this.ac.state === 'suspended') this.ac.resume();
-        return !!this.ac;
-    }},
-    tone(f1, f2, dur, type, vol, delay) {{
-        if (localStorage.getItem('pp-sfx') === 'off' || !this.ensure()) return;
-        try {{
-            const t0 = this.ac.currentTime + (delay || 0);
-            const o = this.ac.createOscillator(), g = this.ac.createGain();
-            o.type = type || 'sine';
-            o.frequency.setValueAtTime(f1, t0);
-            if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
-            g.gain.setValueAtTime(0.0001, t0);
-            g.gain.exponentialRampToValueAtTime(vol || 0.05, t0 + 0.015);
-            g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-            o.connect(g); g.connect(this.ac.destination);
-            o.start(t0); o.stop(t0 + dur + 0.05);
-        }} catch (e) {{}}
-    }},
-    click() {{ this.tone(520, 760, 0.08, 'triangle', 0.04); }},
-    success() {{ this.tone(523, 0, 0.1, 'sine', 0.055); this.tone(659, 0, 0.1, 'sine', 0.055, 0.09); this.tone(784, 1046, 0.18, 'sine', 0.065, 0.18); }},
-    error() {{ this.tone(220, 110, 0.25, 'sawtooth', 0.045); }}
-}};
-document.addEventListener('click', e => {{ if (e.target.closest('button, .app-btn, .config-item, .menu-item, .btn')) SFX.click(); }}, true);
 
 const subUrl = `{sub_url}`;
 const uuid = `{uuid}`;
@@ -4387,8 +3856,6 @@ function toast(msg, type) {{
     t.className = 'toast show' + (type ? ' ' + type : '');
     clearTimeout(t._timeout);
     t._timeout = setTimeout(() => t.classList.remove('show'), 2000);
-    if (type === 'ok') SFX.success();
-    else if (type === 'err') SFX.error();
 }}
 
 function copySub() {{
